@@ -15,13 +15,27 @@
 4.saturate;
 5.scale;
 */
-class Image{
+using namespace cs225;
+class Image : public PNG{
     public: 
-        void ChangeOfHue(cs225::PNG* image_p);
-        bool ToOrange(cs225::HSLAPixel& pixel_p);
+        void lighten();
+        void lighten(double amount);
+        void rotateColor(double degrees);
+        void darken();
+        void darken(double amount);
+        void saturate();
+        void saturate(double amount);
+        void desaturate();
+        void desaturate(double amount);
+        void grayscale ();
+        void scale(double factor);
+        void scale(unsigned w,unsigned h); 
+        void illinify();
     private:
         const double orange = 11;
         const double blue = 216;
+        bool ToOrange(HSLAPixel& pixel_p);
+
 
 };
 #endif

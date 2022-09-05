@@ -1,17 +1,143 @@
 #include "Image.h"
 #include "cs225/PNG.h"
-#include "cs225/HSLAPixel.h"
 #include <cmath>
 
 using namespace cs225;
 using namespace std;
-void Image::ChangeOfHue(PNG* image_p) {
-    int width = image_p->width();
-    int height = image_p->height();
+void Image::lighten() {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.l += 0.1;
+            if (to_change.l > 1.0) {to_change.l = 1.0;}
+            if (to_change.l < 0.0) {to_change.l = 0.0;}
+        }
+    }
+}
 
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            HSLAPixel& to_change = image_p->getPixel(x,y);
+void Image::lighten(double amount) {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.l += amount;
+            if (to_change.l > 1.0) {to_change.l = 1.0;}
+            if (to_change.l < 0.0) {to_change.l = 0.0;}
+        }
+    }
+}
+
+void Image::darken() {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.l -= 0.1;
+            if (to_change.l > 1.0) {to_change.l = 1.0;}
+            if (to_change.l < 0.0) {to_change.l = 0.0;}
+        }
+    }
+}
+void Image::darken(double amount) {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.l -= amount;
+            if (to_change.l > 1.0) {to_change.l = 1.0;}
+            if (to_change.l < 0.0) {to_change.l = 0.0;}
+        }
+    }
+}
+void Image::rotateColor	(double degrees) {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.h += degrees;
+            while (to_change.h > 360) {to_change.h -= 360;}
+            while (to_change.h < 0.0) {to_change.h += 360;}
+        }
+    }
+}	
+
+void Image::saturate() {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.s += 0.1;
+            if (to_change.s > 1.0) {to_change.s = 1.0;}
+            if (to_change.s < 0.0) {to_change.s = 0.0;}
+        }
+    }
+}
+void Image::saturate(double amount) {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.s += amount;
+            if (to_change.s > 1.0) {to_change.s = 1.0;}
+            if (to_change.s < 0.0) {to_change.s = 0.0;}
+        }
+    }
+}
+void Image::desaturate() {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.s -= 0.1;
+            if (to_change.s > 1.0) {to_change.s = 1.0;}
+            if (to_change.s < 0.0) {to_change.s = 0.0;}
+        }
+    }
+}
+void Image::desaturate(double amount) {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.s -= amount;
+            if (to_change.s > 1.0) {to_change.s = 1.0;}
+            if (to_change.s < 0.0) {to_change.s = 0.0;}
+        }
+    }
+}
+void Image::grayscale() {
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
+            to_change.s = 0.0;
+        }
+    }
+}
+void Image::scale(double factor) {
+    if (factor == 1.0) {
+        return;
+    }
+    Image to_scale = Image(*this);
+    resize(width()*factor,height()*factor);
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& ori_pixel = to_scale.getPixel(x/factor,y/factor);
+            HSLAPixel& cur_pixel = getPixel(x, y);
+            cur_pixel = ori_pixel;
+        }
+    }
+}
+void Image::scale(unsigned w,unsigned h) {
+    Image to_scale = Image(*this);
+    int fac_x = w/width();
+    int fac_y = h/height();
+    resize(w,h);
+    for (unsigned int y  = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& ori_pixel = to_scale.getPixel(x/fac_x,y/fac_y);
+            HSLAPixel& cur_pixel = getPixel(x, y);
+            cur_pixel = ori_pixel;
+        }
+    }
+}
+
+void Image::illinify() {
+
+    for (unsigned int y = 0; y < height(); y++) {
+        for (unsigned int x = 0; x < width(); x++) {
+            HSLAPixel& to_change = getPixel(x,y);
             if (ToOrange(to_change)) {
                 to_change.h = orange;
             } else {
