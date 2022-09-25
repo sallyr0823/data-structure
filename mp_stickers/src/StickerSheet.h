@@ -13,6 +13,7 @@ class StickerSheet {
 
         StickerSheet (const Image &picture, unsigned max);
         ~StickerSheet ();
+        void Clear();
         StickerSheet (const StickerSheet &other);
         const StickerSheet & operator= (const StickerSheet &other);
         void changeMaxStickers (unsigned max);
@@ -22,14 +23,12 @@ class StickerSheet {
         Image* getSticker (unsigned index);
         Image render() const;
     private:
-        struct Sticker {
-            Image* image;
-            unsigned xcoord;
-            unsigned ycoord;
-        };
-        Image* base_ ;
-        unsigned cap_;
-        Sticker* stickers_;
+        Image base_;
+        Image** sheet_;
+        unsigned* x_coord_;
+        unsigned* y_coord_;
+        unsigned int cap_;
+
 
         
 

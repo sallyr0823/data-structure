@@ -24,10 +24,10 @@ namespace fileio
         std::vector<std::string>* rooms = NULL;
 
         /** Represents the index of the student to read next */
-        size_t students_i = 0;
+        size_t students_i;
 
         /** Represents the index of the Room to read next */
-        size_t rooms_i = 0;
+        size_t rooms_i;
     }
 
     void init()

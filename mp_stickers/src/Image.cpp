@@ -109,25 +109,28 @@ void Image::scale(double factor) {
     if (factor == 1.0) {
         return;
     }
+    int new_width = factor * this->width();
+    int new_height = factor * this->height();
     Image to_scale = Image(*this);
-    resize(width()*factor,height()*factor);
+    resize(new_width,new_height);
     for (unsigned int y  = 0; y < height(); y++) {
         for (unsigned int x = 0; x < width(); x++) {
             HSLAPixel& ori_pixel = to_scale.getPixel(x/factor,y/factor);
-            HSLAPixel& cur_pixel = getPixel(x, y);
+            HSLAPixel& cur_pixel = getPixel(x,y);
             cur_pixel = ori_pixel;
         }
     }
 }
 void Image::scale(unsigned w,unsigned h) {
     Image to_scale = Image(*this);
-    int fac_x = w/width();
-    int fac_y = h/height();
-    resize(w,h);
+    double fac_x = double(w)/width();
+    double fac_y = double(h)/height();
+    double fac_m = min(fac_x,fac_y);
+    resize(fac_m*width(),fac_m*height());
     for (unsigned int y  = 0; y < height(); y++) {
         for (unsigned int x = 0; x < width(); x++) {
-            HSLAPixel& ori_pixel = to_scale.getPixel(x/fac_x,y/fac_y);
-            HSLAPixel& cur_pixel = getPixel(x, y);
+            HSLAPixel& ori_pixel = to_scale.getPixel(double(x)/fac_m,double(y)/fac_m);
+            HSLAPixel& cur_pixel = getPixel(x,y);
             cur_pixel = ori_pixel;
         }
     }

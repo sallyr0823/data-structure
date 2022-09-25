@@ -32,8 +32,8 @@ class Image : public PNG{
         void scale(unsigned w,unsigned h); 
         void illinify();
     private:
-        const double orange = 11;
-        const double blue = 216;
+        double orange = 11;
+        double blue = 216;
         bool ToOrange(HSLAPixel& pixel_p);
 
 

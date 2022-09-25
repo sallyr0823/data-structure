@@ -24,6 +24,8 @@ class Allocator
      * @param roomFile Path to room list file
      */
     Allocator(const std::string& studentFile, const std::string& roomFile);
+    
+    ~Allocator();
 
 
     /**
