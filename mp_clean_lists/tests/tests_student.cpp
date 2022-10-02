@@ -45,6 +45,8 @@ TEST_CASE("1", "[weight=1][part=3][valgrind]") {
     iter++;  REQUIRE( *iter == 7 );
     iter--;  REQUIRE( *iter == 8 );
     iter--;  REQUIRE( *iter == 9 );
+    iter--;  REQUIRE( *iter == 10 );
+    --iter;  REQUIRE( *iter == NULL);
 }
 
 TEST_CASE("2", "[weight=1][part=3][valgrind]") {

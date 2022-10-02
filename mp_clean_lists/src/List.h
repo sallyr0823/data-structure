@@ -162,7 +162,6 @@ class List {
      * You may NOT allocate ANY new ListNodes!
      */
     void tripleRotate();
-    void swap(ListNode* a, ListNode* b);
 
     /**
      * Splits the given list into two parts by dividing it at the
