@@ -286,7 +286,7 @@ void List<T>::reverseNth(int n) {
       count++;
     }
     reverse(start, end);
-    start = start->next; //to the next block
+    start = start->next;
     end = start;  
   }
 }
