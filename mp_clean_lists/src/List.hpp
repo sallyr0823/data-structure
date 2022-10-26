@@ -164,6 +164,8 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   * 
   * You may NOT allocate ANY new ListNodes!
   */
+ // My code uses reference from GeekforGeek regarding topic of link-list rotation
+ // There may be possibility that someone also refer to this topic
 template <typename T>
 void List<T>::tripleRotate() {
   // @todo Graded in MP3.1
@@ -201,7 +203,7 @@ void List<T>::tripleRotate() {
         tmp2 -> next = second;
       }
       curr = curr -> next;
-      if ((length_ - i) < 3 && length_ > 3) {
+      if ((length_ - i) < 3) {
         return;
       }
     } 
@@ -235,14 +237,18 @@ void List<T>::reverse() {
 template <typename T>
 void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   /// @todo Graded in MP3.2
+  // possible edge case
+  // revised for github package
+  if(startPoint == endPoint) {return;}
+  if(startPoint == nullptr || endPoint == nullptr) {return;}
   ListNode* start = startPoint;
   // prev of startpoint
   ListNode* prev = startPoint -> prev;
   ListNode* tmp = start -> next;
+  ListNode* next = endPoint -> next;
   start -> next = endPoint -> next;
   start -> prev = tmp;
   start = tmp;
-
   // loop of reverse
   while (start != endPoint) {
     tmp = start -> next;
@@ -250,18 +256,20 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
     start -> prev = tmp;
     start = tmp;
   }
-  endPoint -> next = endPoint -> prev;
-  endPoint -> prev = prev;
+  // start = endPoint
+ start -> next = start -> prev;
+ start -> prev = prev;
   if (head_ != startPoint) {
     prev->next = start;
   } else {
     head_ = endPoint;
   }
   if (tail_ != endPoint) {
-    startPoint->next->prev = startPoint;
+    next -> prev = startPoint;
   } else {
     tail_ = startPoint;
   }
+  
 
 }
 
@@ -299,18 +307,15 @@ void List<T>::reverseNth(int n) {
  */
 template <typename T>
 void List<T>::mergeWith(List<T> & otherList) {
-    // set up the current list
     head_ = merge(head_, otherList.head_);
     tail_ = head_;
 
-    // make sure there is a node in the new list
     if (tail_ != NULL) {
         while (tail_->next != NULL)
             tail_ = tail_->next;
     }
     length_ = length_ + otherList.length_;
 
-    // empty out the parameter list
     otherList.head_ = NULL;
     otherList.tail_ = NULL;
     otherList.length_ = 0;
@@ -330,15 +335,17 @@ void List<T>::mergeWith(List<T> & otherList) {
 template <typename T>
 typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {
   /// @todo Graded in MP3.2
-    ListNode* result;
+  if(first == NULL && second != NULL) {return second;}
+  if(first != NULL && second == NULL) {return first;}
+    ListNode* start;
     if (first -> data < second -> data) {
-      result = first;
+      start = first;
       first = first -> next;
     } else {
-      result = second;
+      start = second;
       second = second -> next;
     }
-    ListNode* tmp = result;
+    ListNode* tmp = start;
     while (first != NULL && second != NULL) {
       if (first->data < second -> data) {
         tmp -> next = first;
@@ -359,7 +366,7 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
       tmp -> next = second;
       second -> prev = tmp;
     }
-    return result;
+    return start;
 }
 
 /**

@@ -15,7 +15,7 @@ using namespace cs225;
 
 // THESE TESTS ARE NOT GRADED AND ARE FOR YOU ONLY
 
-TEST_CASE("Hello World", "") {
+/*TEST_CASE("Hello World", "") {
     std::string hello = "Hello World!";
 
     REQUIRE( hello == "Hello World!" );
@@ -75,3 +75,4 @@ TEST_CASE("3", "[weight=1][part=3][valgrind]") {
 
     REQUIRE( (bool)(iter == list.end()) );
 }
+*/

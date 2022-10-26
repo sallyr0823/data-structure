@@ -257,6 +257,7 @@ class List {
      *  sequence to be reversed.
      * @param endPoint A pointer reference to the last node in the
      *  sequence to be reversed.
+     * 
      */
     void reverse(ListNode*& startPoint, ListNode*& endPoint);
 
