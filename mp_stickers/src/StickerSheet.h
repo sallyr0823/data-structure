@@ -14,6 +14,7 @@ class StickerSheet {
         StickerSheet (const Image &picture, unsigned max);
         ~StickerSheet ();
         void Clear();
+        void Copy(const StickerSheet &other);
         StickerSheet (const StickerSheet &other);
         const StickerSheet & operator= (const StickerSheet &other);
         void changeMaxStickers (unsigned max);

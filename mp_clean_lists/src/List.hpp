@@ -26,9 +26,10 @@ typename List<T>::ListIterator List<T>::begin() const {
  */
 template <typename T>
 typename List<T>::ListIterator List<T>::end() const {
+  // revised for github package
   // @TODO: graded in MP3.1
+    return List<T>::ListIterator(NULL);
 
-  return List<T>::ListIterator(NULL);
 }
 
 
@@ -38,6 +39,7 @@ typename List<T>::ListIterator List<T>::end() const {
  */
 template <typename T>
 void List<T>::_destroy() {
+  // revised for github package
   /// @todo Graded in MP3.1
   if (length_ == 0) {
     return;
@@ -244,11 +246,13 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   ListNode* start = startPoint;
   // prev of startpoint
   ListNode* prev = startPoint -> prev;
-  ListNode* tmp = start -> next;
   ListNode* next = endPoint -> next;
+  ListNode* tmp = start -> next;
+  // start = startPoint
   start -> next = endPoint -> next;
   start -> prev = tmp;
   start = tmp;
+
   // loop of reverse
   while (start != endPoint) {
     tmp = start -> next;
@@ -282,20 +286,24 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
 template <typename T>
 void List<T>::reverseNth(int n) {
   /// @todo Graded in MP3.2
+  //if(n >= length_) {reverse(head_,tail_);}
   ListNode * start = head_;
-  ListNode * end = start;
-
-  while (start != NULL) {
-    int count = 1;
-    while (count < n) {
-      if (end != tail_) {
-        end = end->next;
-      }
+  ListNode * end = head_;
+  int count = 1;
+  while(end != tail_) {
+    if(count % n == 0) {
+      reverse(start,end);
+      start = start -> next;
+      end = start;
+      count++;
+    } else {
+      end = end -> next;
       count++;
     }
-    reverse(start, end);
-    start = start->next;
-    end = start;  
+  }
+  if(start == NULL) 
+  {return;} else {
+    reverse(start,end);
   }
 }
 

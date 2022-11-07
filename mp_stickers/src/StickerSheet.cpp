@@ -34,6 +34,12 @@ const StickerSheet& StickerSheet::operator= (const StickerSheet &other) {
     if (this == &other) {
         return *this;
     }
+    Clear();
+    // revised for github package
+    Copy(other);
+    return *this;
+}
+void StickerSheet::Copy(const StickerSheet &other) {
     cap_ = other.cap_;
     base_ = other.base_;
     sheet_ = new Image*[cap_];
@@ -48,23 +54,10 @@ const StickerSheet& StickerSheet::operator= (const StickerSheet &other) {
         x_coord_[i] = other.x_coord_[i];
         y_coord_[i] = other.y_coord_[i];
     }
-    return *this;
 }
 StickerSheet::StickerSheet(const StickerSheet& other) {
-    cap_ = other.cap_;
-    base_ = other.base_;
-    sheet_ = new Image*[cap_]();
-    x_coord_ = new unsigned[cap_];
-    y_coord_ = new unsigned[cap_];
-    for (unsigned i = 0; i < cap_ ; i++) {
-        if(other.sheet_[i] != nullptr) {
-            sheet_[i] = other.sheet_[i];
-        } else {
-            sheet_[i] = nullptr;
-        }
-        x_coord_[i] = other.x_coord_[i];
-        y_coord_[i] = other.y_coord_[i];
-    }
+    Clear();
+    Copy(other);
 }	
 void StickerSheet::changeMaxStickers (unsigned max) {
     if (max == cap_) {
@@ -120,9 +113,10 @@ bool StickerSheet::translate (unsigned index, unsigned x, unsigned y) {
     return true;
 }
 void StickerSheet::removeSticker (unsigned index) {
-    if (index >= cap_ || sheet_[index] == nullptr) {
+    if (index < 0 || index >= cap_ || sheet_[index] == nullptr) {
         return;
     }
+    // revised for github package
     //delete sheet_[index];
     sheet_[index] = nullptr;
     x_coord_[index] = 0;
